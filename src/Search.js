@@ -22,13 +22,19 @@ export default class Search extends React.Component {
 
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.fetchRestaurants = this.fetchRestaurants.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
   handleQueryChange(e) {
     this.setState({
+      filtersType: null,
       query: e.target.value
     });
     this.fetchRestaurants();
+  }
+
+  handleFilterChange(facetType, facetValue) {
+    helper.toggleFacetRefinement(facetType, facetValue).search();
   }
 
   fetchRestaurants() {
@@ -41,6 +47,10 @@ export default class Search extends React.Component {
 
   componentDidMount() {
     helper.on('result', function (content) {
+      if (this.state.filtersType) {
+        content.getFacetValues(this.state.filtersType);
+      }
+
       this.setState(function () {
         return {
          results: content
@@ -59,7 +69,7 @@ export default class Search extends React.Component {
         </div>
         <div className={styles.wrapper}>
           <div className={styles.sidebar}>
-            <Facets results={this.state.results} />
+            <Facets results={this.state.results} handleFilterChange={this.handleFilterChange} />
           </div>
           <div className={styles.content}>
             <SearchResults results={this.state.results} />

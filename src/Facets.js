@@ -12,7 +12,9 @@ export default class Facets extends React.Component {
           return (
             <FoodTypes
               title="Cuisine/Food Type"
+              facetName={object.name}
               facetValues={object.data}
+              handleFilterChange={this.props.handleFilterChange}
               key={index}
             />
           )
@@ -26,7 +28,7 @@ export default class Facets extends React.Component {
             />
           )
         }
-      });
+      }.bind(this));
 
       return (
         <div>

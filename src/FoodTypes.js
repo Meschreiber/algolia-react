@@ -8,12 +8,14 @@ export default class FoodTypes extends React.Component {
     let facetValues = Object.keys(data).map(function(key, index) {
       return (
         <FoodType
+          facetName={this.props.facetName}
           name={key}
           value={data[key]}
+          handleFilterChange={this.props.handleFilterChange}
           key={index}
         />
       )
-    });
+    }.bind(this));
 
     return (
       <div className={style.facet}>
