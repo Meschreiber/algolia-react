@@ -1,13 +1,13 @@
 import React from 'react';
-import FoodType from './FoodType';
+import Rating from './Rating';
 import style from './Facets.css';
 
-export default class FoodTypes extends React.Component {
+export default class Ratings extends React.Component {
   render() {
     let data = this.props.facetValues;
-    let facetValues = Object.keys(data).map(function(key, index) {
+    let facetValues = Object.keys(data).sort().map(function(key, index) {
       return (
-        <FoodType
+        <Rating
           name={key}
           value={data[key]}
           key={index}

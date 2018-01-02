@@ -6,7 +6,7 @@
 }
 
 .facetList {
-  margin: 0;
+  margin: 0 0 20px;
   padding: 0;
   list-style: none;
 }
@@ -19,11 +19,29 @@
 }
 
 .facetList > li:hover {
+  cursor: pointer;
+}
+
+.facetList > li.highlightOnHover:hover {
   color: white;
   background-color: #2897C5;
-  cursor: pointer;
 }
 
 .facetList > li > .count {
   float: right;
+}
+
+span.stars {
+  margin-bottom: 4px;
+}
+
+span.stars, span.stars span {
+    display: block;
+    background: url('../build/img/stars.png') 0 0 / 17px repeat-x;
+    width: 85px;
+    height: 17px;
+}
+
+span.stars span {
+    background-position: 0 -18px;
 }

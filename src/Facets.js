@@ -1,5 +1,6 @@
 import React from 'react';
 import FoodTypes from './FoodTypes';
+import Ratings from './Ratings';
 
 export default class Facets extends React.Component {
   render() {
@@ -11,6 +12,15 @@ export default class Facets extends React.Component {
           return (
             <FoodTypes
               title="Cuisine/Food Type"
+              facetValues={object.data}
+              key={index}
+            />
+          )
+        }
+        if (object.name === 'stars_count') {
+          return (
+            <Ratings
+              title="Rating"
               facetValues={object.data}
               key={index}
             />
