@@ -5,7 +5,7 @@ html {
 
 body {
   -webkit-font-smoothing: antialiased;
-  background: url('../public/img/background_@2x.png');
+  background: url('../build/img/background_@2x.png');
   background-size: 46px auto;
 }
 

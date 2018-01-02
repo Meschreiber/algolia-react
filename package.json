@@ -6,7 +6,7 @@
   "homepage": "https://alexcoleman.github.io/algolia",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --content-base=./public",
+    "start": "webpack-dev-server --content-base=./build",
     "deploy": "gh-pages -d build"
   },
   "author": "alex coleman",
