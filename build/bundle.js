@@ -19834,7 +19834,7 @@
 	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
 	    _this.state = {
-	      query: 'wine'
+	      query: 'Wine'
 	    };
 
 	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
