@@ -70,6 +70,7 @@
 	      lat: position.coords.latitude,
 	      lon: position.coords.longitude
 	    };
+	    console.log(location);
 	  });
 	}
 
@@ -19834,7 +19835,7 @@
 	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
 	    _this.state = {
-	      query: 'wine'
+	      query: 'Wine'
 	    };
 
 	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
@@ -19853,6 +19854,11 @@
 	  }, {
 	    key: 'fetchRestaurants',
 	    value: function fetchRestaurants() {
+	      console.log(this.props);
+	      if (this.props.location) {
+	        console.log(this.props.loction.lat);
+	      }
+
 	      helper.setQuery(this.state.query).search();
 	    }
 	  }, {
