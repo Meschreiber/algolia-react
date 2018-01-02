@@ -19805,7 +19805,7 @@
 
 	var _Facets2 = _interopRequireDefault(_Facets);
 
-	var _Search = __webpack_require__(508);
+	var _Search = __webpack_require__(511);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
@@ -43388,6 +43388,10 @@
 
 	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
 
+	var _Ratings = __webpack_require__(509);
+
+	var _Ratings2 = _interopRequireDefault(_Ratings);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43415,6 +43419,13 @@
 	          if (object.name === 'food_type') {
 	            return _react2.default.createElement(_FoodTypes2.default, {
 	              title: 'Cuisine/Food Type',
+	              facetValues: object.data,
+	              key: index
+	            });
+	          }
+	          if (object.name === 'stars_count') {
+	            return _react2.default.createElement(_Ratings2.default, {
+	              title: 'Rating',
 	              facetValues: object.data,
 	              key: index
 	            });
@@ -43457,9 +43468,9 @@
 
 	var _FoodType2 = _interopRequireDefault(_FoodType);
 
-	var _FoodTypes = __webpack_require__(506);
+	var _Facets = __webpack_require__(506);
 
-	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
+	var _Facets2 = _interopRequireDefault(_Facets);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43492,15 +43503,15 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: _FoodTypes2.default.facet },
+	        { className: _Facets2.default.facet },
 	        _react2.default.createElement(
 	          'h1',
-	          { className: _FoodTypes2.default.facetTitle },
+	          { className: _Facets2.default.facetTitle },
 	          this.props.title
 	        ),
 	        _react2.default.createElement(
 	          'ul',
-	          { className: _FoodTypes2.default.facetList },
+	          { className: _Facets2.default.facetList },
 	          facetValues
 	        )
 	      );
@@ -43528,9 +43539,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _FoodTypes = __webpack_require__(506);
+	var _Facets = __webpack_require__(506);
 
-	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
+	var _Facets2 = _interopRequireDefault(_Facets);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43554,15 +43565,15 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'li',
-	        null,
+	        { className: _Facets2.default.highlightOnHover },
 	        _react2.default.createElement(
 	          'span',
-	          { className: _FoodTypes2.default.name },
+	          { className: _Facets2.default.name },
 	          this.props.name
 	        ),
 	        _react2.default.createElement(
 	          'span',
-	          { className: _FoodTypes2.default.count },
+	          { className: _Facets2.default.count },
 	          this.props.value
 	        )
 	      );
@@ -43595,8 +43606,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./FoodTypes.css", function() {
-				var newContent = require("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./FoodTypes.css");
+			module.hot.accept("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./Facets.css", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./Facets.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -43614,23 +43625,171 @@
 
 
 	// module
-	exports.push([module.id, ".FoodTypes__facetTitle___xit1L {\n  margin: 0 0 10px 0;\n  padding: 0;\n  font-size: 1rem;\n  line-height: 1.6rem;\n}\n\n.FoodTypes__facetList___1MpeE {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.FoodTypes__facetList___1MpeE > li {\n  padding: 0 10px;\n  font-size: 0.8rem;\n  line-height: 1.6rem;\n  border-radius: 3px;\n}\n\n.FoodTypes__facetList___1MpeE > li:hover {\n  color: white;\n  background-color: #2897C5;\n  cursor: pointer;\n}\n\n.FoodTypes__facetList___1MpeE > li > .FoodTypes__count___2C-09 {\n  float: right;\n}\n", ""]);
+	exports.push([module.id, ".Facets__facetTitle___2oGsP {\n  margin: 0 0 10px 0;\n  padding: 0;\n  font-size: 1rem;\n  line-height: 1.6rem;\n}\n\n.Facets__facetList___3yfTQ {\n  margin: 0 0 20px;\n  padding: 0;\n  list-style: none;\n}\n\n.Facets__facetList___3yfTQ > li {\n  padding: 0 10px;\n  font-size: 0.8rem;\n  line-height: 1.6rem;\n  border-radius: 3px;\n}\n\n.Facets__facetList___3yfTQ > li:hover {\n  cursor: pointer;\n}\n\n.Facets__facetList___3yfTQ > li.Facets__highlightOnHover___2pLjB:hover {\n  color: white;\n  background-color: #2897C5;\n}\n\n.Facets__facetList___3yfTQ > li > .Facets__count___2PJwM {\n  float: right;\n}\n\nspan.Facets__stars___332Y6 {\n  margin-bottom: 4px;\n}\n\nspan.Facets__stars___332Y6, span.Facets__stars___332Y6 span {\n    display: block;\n    background: url(" + __webpack_require__(508) + ") 0 0 / 17px repeat-x;\n    width: 85px;\n    height: 17px;\n}\n\nspan.Facets__stars___332Y6 span {\n    background-position: 0 -18px;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"facetTitle": "FoodTypes__facetTitle___xit1L",
-		"facetList": "FoodTypes__facetList___1MpeE",
-		"count": "FoodTypes__count___2C-09"
+		"facetTitle": "Facets__facetTitle___2oGsP",
+		"facetList": "Facets__facetList___3yfTQ",
+		"highlightOnHover": "Facets__highlightOnHover___2pLjB",
+		"count": "Facets__count___2PJwM",
+		"stars": "Facets__stars___332Y6"
 	};
 
 /***/ }),
 /* 508 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 509 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Rating = __webpack_require__(510);
+
+	var _Rating2 = _interopRequireDefault(_Rating);
+
+	var _Facets = __webpack_require__(506);
+
+	var _Facets2 = _interopRequireDefault(_Facets);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Ratings = function (_React$Component) {
+	  _inherits(Ratings, _React$Component);
+
+	  function Ratings() {
+	    _classCallCheck(this, Ratings);
+
+	    return _possibleConstructorReturn(this, (Ratings.__proto__ || Object.getPrototypeOf(Ratings)).apply(this, arguments));
+	  }
+
+	  _createClass(Ratings, [{
+	    key: 'render',
+	    value: function render() {
+	      var data = this.props.facetValues;
+	      var facetValues = Object.keys(data).sort().map(function (key, index) {
+	        return _react2.default.createElement(_Rating2.default, {
+	          name: key,
+	          value: data[key],
+	          key: index
+	        });
+	      });
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: _Facets2.default.facet },
+	        _react2.default.createElement(
+	          'h1',
+	          { className: _Facets2.default.facetTitle },
+	          this.props.title
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: _Facets2.default.facetList },
+	          facetValues
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Ratings;
+	}(_react2.default.Component);
+
+	exports.default = Ratings;
+
+/***/ }),
+/* 510 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Facets = __webpack_require__(506);
+
+	var _Facets2 = _interopRequireDefault(_Facets);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Rating = function (_React$Component) {
+	  _inherits(Rating, _React$Component);
+
+	  function Rating() {
+	    _classCallCheck(this, Rating);
+
+	    return _possibleConstructorReturn(this, (Rating.__proto__ || Object.getPrototypeOf(Rating)).apply(this, arguments));
+	  }
+
+	  _createClass(Rating, [{
+	    key: 'render',
+	    value: function render() {
+	      var numStars = this.props.name;
+	      var size = Math.max(0, Math.min(5, numStars)) * 17;
+	      var sizeString = size + 'px';
+
+	      var stars = {
+	        width: sizeString
+	      };
+
+	      return _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'span',
+	          { className: _Facets2.default.stars },
+	          _react2.default.createElement('span', { style: stars })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Rating;
+	}(_react2.default.Component);
+
+	exports.default = Rating;
+
+/***/ }),
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(509);
+	var content = __webpack_require__(512);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -43655,7 +43814,7 @@
 	}
 
 /***/ }),
-/* 509 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(498)(undefined);
@@ -43663,7 +43822,7 @@
 
 
 	// module
-	exports.push([module.id, "html {\n  font-size: 15px;\n  font-family: 'Open Sans', sans-serif;\n}\n\nbody {\n  -webkit-font-smoothing: antialiased;\n  background: url(" + __webpack_require__(510) + ");\n  background-size: 46px auto;\n}\n\n.Search__container___2h8KJ {\n  max-width: 820px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  background-color: white;\n  box-shadow: 0 2px 6px rgba(0,0,0,.2);\n}\n\n.Search__wrapper___14X-G {\n  display: flex;\n  flex-direction: row;\n}\n\n.Search__searchBar___19zE0 {\n  padding: 25px 20px;\n  background: #1C688E;\n}\n\n.Search__searchBar___19zE0 > input {\n  width: 100%;\n  box-sizing: border-box;\n  padding: 10px 13px;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1rem;\n  border: 1px solid #D6D6D6;\n  border-radius: 3px;\n  appearance: none;\n}\n\n.Search__searchBar___19zE0 > input:focus {\n  border: 1px solid #2897C5;\n  outline: 0;\n}\n\n.Search__searchBar___19zE0 > button {\n  display: none;\n}\n\n.Search__searchBar___19zE0 > input:placeholder {\n  color: #B3B3B3;\n}\n\n.Search__sidebar___3nTzZ {\n  width: 200px;\n  padding: 22px;\n}\n\n.Search__content___2HKxR {\n  flex: 3;\n  padding: 20px;\n  border-left: 1px solid #E6E6E6;\n}\n", ""]);
+	exports.push([module.id, "html {\n  font-size: 15px;\n  font-family: 'Open Sans', sans-serif;\n}\n\nbody {\n  -webkit-font-smoothing: antialiased;\n  background: url(" + __webpack_require__(513) + ");\n  background-size: 46px auto;\n}\n\n.Search__container___2h8KJ {\n  max-width: 820px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  background-color: white;\n  box-shadow: 0 2px 6px rgba(0,0,0,.2);\n}\n\n.Search__wrapper___14X-G {\n  display: flex;\n  flex-direction: row;\n}\n\n.Search__searchBar___19zE0 {\n  padding: 25px 20px;\n  background: #1C688E;\n}\n\n.Search__searchBar___19zE0 > input {\n  width: 100%;\n  box-sizing: border-box;\n  padding: 10px 13px;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1rem;\n  border: 1px solid #D6D6D6;\n  border-radius: 3px;\n  appearance: none;\n}\n\n.Search__searchBar___19zE0 > input:focus {\n  border: 1px solid #2897C5;\n  outline: 0;\n}\n\n.Search__searchBar___19zE0 > button {\n  display: none;\n}\n\n.Search__searchBar___19zE0 > input:placeholder {\n  color: #B3B3B3;\n}\n\n.Search__sidebar___3nTzZ {\n  width: 200px;\n  padding: 22px;\n}\n\n@media screen and (max-width: 800px) {\n  .Search__sidebar___3nTzZ {\n    display: none;\n  }\n}\n\n.Search__content___2HKxR {\n  flex: 3;\n  padding: 20px;\n  border-left: 1px solid #E6E6E6;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -43675,7 +43834,7 @@
 	};
 
 /***/ }),
-/* 510 */
+/* 513 */
 /***/ (function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAAA6CAMAAAAKnM4tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAwBQTFRF29vb4+Pj5ubm5OTk3d3d4ODg3Nzc4eHh5eXl3t7e4uLi397e39/fDQ0NDg4ODw8PEBAQEREREhISExMTFBQUFRUVFhYWFxcXGBgYGRkZGhoaGxsbHBwcHR0dHh4eHx8fICAgISEhIiIiIyMjJCQkJSUlJiYmJycnKCgoKSkpKioqKysrLCwsLS0tLi4uLy8vMDAwMTExMjIyMzMzNDQ0NTU1NjY2Nzc3ODg4OTk5Ojo6Ozs7PDw8PT09Pj4+Pz8/QEBAQUFBQkJCQ0NDRERERUVFRkZGR0dHSEhISUlJSkpKS0tLTExMTU1NTk5OT09PUFBQUVFRUlJSU1NTVFRUVVVVVlZWV1dXWFhYWVlZWlpaW1tbXFxcXV1dXl5eX19fYGBgYWFhYmJiY2NjZGRkZWVlZmZmZ2dnaGhoaWlpampqa2trbGxsbW1tbm5ub29vcHBwcXFxcnJyc3NzdHR0dXV1dnZ2d3d3eHh4eXl5enp6e3t7fHx8fX19fn5+f39/gICAgYGBgoKCg4ODhISEhYWFhoaGh4eHiIiIiYmJioqKi4uLjIyMjY2Njo6Oj4+PkJCQkZGRkpKSk5OTlJSUlZWVlpaWl5eXmJiYmZmZmpqam5ubnJycnZ2dnp6en5+foKCgoaGhoqKio6OjpKSkpaWlpqamp6enqKioqampqqqqq6urrKysra2trq6ur6+vsLCwsbGxsrKys7OztLS0tbW1tra2t7e3uLi4ubm5urq6u7u7vLy8vb29vr6+v7+/wMDAwcHBwsLCw8PDxMTExcXFxsbGx8fHyMjIycnJysrKy8vLzMzMzc3Nzs7Oz8/P0NDQ0dHR0tLS09PT1NTU1dXV1tbW19fX2NjY2dnZ2tra29vb3Nzc3d3d3t7e39/f4ODg4eHh4uLi4+Pj5OTk5eXl5ubm5+fn6Ojo6enp6urq6+vr7Ozs7e3t7u7u7+/v8PDw8fHx8vLy8/Pz9PT09fX19vb29/f3+Pj4+fn5+vr6+/v7/Pz8/f39/v7+////AL9WEwAAAahJREFUeNrMmMuuhCAMQMurLcj/f+9dNASQot5JQFmZEY9DS+EgABhjleac9wAhICISyW/G1N5EiIghAHjvnEYwBrbDmYkAYnSuvy5w52IEIGLur9+GG9OGooaIKCWAlIjOoZAQjZydcObjADiOcZACADi/eP7cXrgkz6qN+TgQtRdLk8S+B0fUknPXZBL0AdsNj5E5RoCcZ8Mfw5UzgDz3Ltxaa1NCREzpHt32/ALcWuYQZLBXAYkRIITS5xtwue29Vux12nrfPv0deFkQekR5bV/s34OPaZun+mvwtlSYr8rri/CyqMZ4tSC/BZdE6dtzvV8Tq23R7f1d8KJCoxL1A9VDUrSo1aMd8F5pSpGMYqzDRUVLOCprPTznsSyKevbJG+Ei2Gf9l0LLeTV8Nr0kOWe17LV1lvwyrVfCifTjkgyuh53hxgDMBcS5tfBrabiHXwnIfnjdlO/hs816P7wXoSfw+WFxH3yUhqfwUUB2wjVpeA7XCDvgs0PW/+Dt4WsPXJ9Iv8D7Typr4SnNivdXeF1A1sJ1iahdWrnr4SIRs78lwrEQ/jcARqo9KYUsl2AAAAAASUVORK5CYII="
