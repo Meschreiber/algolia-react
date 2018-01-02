@@ -62,7 +62,18 @@
 
 	var app = document.getElementById('app');
 
-	_reactDom2.default.render(_react2.default.createElement(_Search2.default, null), app);
+	var location = {};
+
+	if ("geolocation" in navigator) {
+	  navigator.geolocation.getCurrentPosition(function (position) {
+	    location = {
+	      lat: position.coords.latitude,
+	      lon: position.coords.longitude
+	    };
+	  });
+	}
+
+	_reactDom2.default.render(_react2.default.createElement(_Search2.default, { location: location }), app);
 
 /***/ }),
 /* 1 */
@@ -19790,15 +19801,11 @@
 
 	var _SearchResults2 = _interopRequireDefault(_SearchResults);
 
-	var _Type = __webpack_require__(501);
+	var _Facets = __webpack_require__(503);
 
-	var _Type2 = _interopRequireDefault(_Type);
+	var _Facets2 = _interopRequireDefault(_Facets);
 
-	var _Rating = __webpack_require__(502);
-
-	var _Rating2 = _interopRequireDefault(_Rating);
-
-	var _Search = __webpack_require__(503);
+	var _Search = __webpack_require__(508);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
@@ -19810,9 +19817,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	// TODO: move this to server config file
 	var client = (0, _algoliasearch2.default)('RHTCRR0Q2S', 'a0d474078fa8eb55c960069bfe7ca052');
 	var helper = (0, _algoliasearchHelper2.default)(client, 'restaurants', {
-	  hitsPerPage: 5
+	  facets: ['food_type', 'stars_count', 'payment_options'],
+	  hitsPerPage: 5,
+	  maxValuesPerFacet: 5
 	});
 
 	var Search = function (_React$Component) {
@@ -19824,7 +19834,7 @@
 	    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
 	    _this.state = {
-	      query: 'prime rib'
+	      query: 'wine'
 	    };
 
 	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
@@ -19861,6 +19871,9 @@
 	        });
 	      }.bind(this));
 	    }
+
+	    // TODO: create a component for SearchBar
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -19870,7 +19883,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: _Search2.default.searchBar },
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Search things...', value: this.state.query, onChange: this.handleQueryChange }),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Search for Restaurants by Name, Cuisine, Location...', value: this.state.query, onChange: this.handleQueryChange }),
 	          _react2.default.createElement(
 	            'button',
 	            { onClick: this.fetchRestaurants },
@@ -19883,8 +19896,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: _Search2.default.sidebar },
-	            _react2.default.createElement(_Rating2.default, null),
-	            _react2.default.createElement(_Type2.default, null)
+	            _react2.default.createElement(_Facets2.default, { results: this.state.results })
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -23544,7 +23556,7 @@
 	 * Compute the headers for a request
 	 *
 	 * @param [string] options.additionalUA semi-colon separated string with other user agents to add
-	 * @param [boolean=true] options.withAPIKey Send the api key as a header
+	 * @param [boolean=true] options.withApiKey Send the api key as a header
 	 * @param [Object] options.headers Extra headers to send
 	 */
 	AlgoliaSearchCore.prototype._computeRequestHeaders = function(options) {
@@ -23563,7 +23575,7 @@
 	  // but in some situations, the API KEY will be too long (big secured API keys)
 	  // so if the request is a POST and the KEY is very long, we will be asked to not put
 	  // it into headers but in the JSON body
-	  if (options.withAPIKey !== false) {
+	  if (options.withApiKey !== false) {
 	    requestHeaders['x-algolia-api-key'] = this.apiKey;
 	  }
 
@@ -26298,7 +26310,7 @@
 
 	'use strict';
 
-	module.exports = '3.24.8';
+	module.exports = '3.24.9';
 
 
 /***/ }),
@@ -42536,6 +42548,10 @@
 
 	var _SearchResult2 = _interopRequireDefault(_SearchResult);
 
+	var _SearchResults = __webpack_require__(501);
+
+	var _SearchResults2 = _interopRequireDefault(_SearchResults);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42554,6 +42570,12 @@
 	  }
 
 	  _createClass(SearchResults, [{
+	    key: 'convertMillisecondsToSeconds',
+	    value: function convertMillisecondsToSeconds(ms) {
+	      var seconds = (ms % 60000 / 1000).toFixed(4);
+	      return seconds;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var response = this.props.results;
@@ -42564,6 +42586,11 @@
 	            name: object.name,
 	            address: object.address,
 	            image_url: object.image_url,
+	            rating: object.stars_count,
+	            neighborhood: object.neighborhood,
+	            price_range: object.price_range,
+	            food_type: object.food_type,
+	            reviews_count: object.reviews_count,
 	            key: index
 	          });
 	        });
@@ -42571,6 +42598,23 @@
 	        return _react2.default.createElement(
 	          'div',
 	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: _SearchResults2.default.stats },
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              response.nbHits,
+	              ' results found '
+	            ),
+	            ' in ',
+	            _react2.default.createElement(
+	              'span',
+	              { className: _SearchResults2.default.time },
+	              this.convertMillisecondsToSeconds(response.processingTimeMS),
+	              ' seconds'
+	            )
+	          ),
 	          results
 	        );
 	      } else {
@@ -42637,7 +42681,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: _SearchResult2.default.left },
-	            _react2.default.createElement('img', { src: this.props.image_url })
+	            _react2.default.createElement('img', { src: this.props.image_url, alt: this.props.name })
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -42645,18 +42689,24 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: _SearchResult2.default.name },
-	              'Name: ',
 	              this.props.name
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: _SearchResult2.default.rating },
-	              'Rating'
+	              this.props.rating,
+	              ' (',
+	              this.props.reviews_count,
+	              ' reviews)'
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: _SearchResult2.default.meta },
-	              'American & Seafood | SOMA | $31 to $50'
+	              this.props.food_type,
+	              ' | ',
+	              this.props.neighborhood,
+	              '  | ',
+	              this.props.price_range
 	            )
 	          )
 	        )
@@ -42690,8 +42740,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResult.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResult.css");
+			module.hot.accept("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResult.css", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResult.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -42709,16 +42759,16 @@
 
 
 	// module
-	exports.push([module.id, ".SearchResult__searchResult___3abcC {\n  display: flex;\n  margin-bottom: 15px;\n}\n\n.SearchResult__left___1KY1b {\n  width: 97px;\n}\n\n.SearchResult__left___1KY1b > img {\n  width: 80px;\n  height: 80px;\n  border: 1px solid #979797;\n  border-radius: 4px;\n}\n\n.SearchResult__right___PQYRV {\n  flex: 2;\n}\n\n.SearchResult__right___PQYRV > .SearchResult__name___2HFWC {\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 16px;\n}\n\n.SearchResult__right___PQYRV > .SearchResult__rating___2ZViM {\n  margin-bottom: 4px;\n  color: red;\n}\n\n.SearchResult__right___PQYRV > .SearchResult__meta___1fQCE {\n  color: #9A9A9A;\n}\n", ""]);
+	exports.push([module.id, ".SearchResult__searchResult___3oIRE {\n  display: flex;\n  margin-bottom: 15px;\n}\n\n.SearchResult__left___2rvtN {\n  width: 97px;\n}\n\n.SearchResult__left___2rvtN > img {\n  width: 80px;\n  height: 80px;\n  border: 1px solid #979797;\n  border-radius: 4px;\n}\n\n.SearchResult__right___IP7vJ {\n  flex: 2;\n}\n\n.SearchResult__right___IP7vJ > .SearchResult__name___2e2jG {\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 1rem;\n}\n\n.SearchResult__right___IP7vJ > .SearchResult__rating___qO4rH {\n  margin-bottom: 4px;\n  color: #FFAB66;\n}\n\n.SearchResult__right___IP7vJ > .SearchResult__meta___2Tdr0 {\n  color: #9A9A9A;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"searchResult": "SearchResult__searchResult___3abcC",
-		"left": "SearchResult__left___1KY1b",
-		"right": "SearchResult__right___PQYRV",
-		"name": "SearchResult__name___2HFWC",
-		"rating": "SearchResult__rating___2ZViM",
-		"meta": "SearchResult__meta___1fQCE"
+		"searchResult": "SearchResult__searchResult___3oIRE",
+		"left": "SearchResult__left___2rvtN",
+		"right": "SearchResult__right___IP7vJ",
+		"name": "SearchResult__name___2e2jG",
+		"rating": "SearchResult__rating___qO4rH",
+		"meta": "SearchResult__meta___2Tdr0"
 	};
 
 /***/ }),
@@ -43274,55 +43324,54 @@
 /* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	// load the styles
+	var content = __webpack_require__(502);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// Prepare cssTransformation
+	var transform;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Type = function (_React$Component) {
-	  _inherits(Type, _React$Component);
-
-	  function Type() {
-	    _classCallCheck(this, Type);
-
-	    return _possibleConstructorReturn(this, (Type.__proto__ || Object.getPrototypeOf(Type)).apply(this, arguments));
-	  }
-
-	  _createClass(Type, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Type'
-	      );
-	    }
-	  }]);
-
-	  return Type;
-	}(_react2.default.Component);
-
-	exports.default = Type;
+	var options = {"hmr":true}
+	options.transform = transform
+	// add the styles to the DOM
+	var update = __webpack_require__(499)(content, options);
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResults.css", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./SearchResults.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ }),
 /* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	exports = module.exports = __webpack_require__(498)(undefined);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".SearchResults__stats___3h8Pd {\n  margin-bottom: 20px;\n  font-size: 1rem;\n  line-height: 1.6rem;\n}\n\n.SearchResults__stats___3h8Pd strong {\n  font-weight: 600;\n}\n\n.SearchResults__stats___3h8Pd > .SearchResults__time___3zj3G {\n  font-size: 0.8rem;\n}\n", ""]);
+
+	// exports
+	exports.locals = {
+		"stats": "SearchResults__stats___3h8Pd",
+		"time": "SearchResults__time___3zj3G"
+	};
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -43335,6 +43384,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _FoodTypes = __webpack_require__(504);
+
+	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43343,39 +43396,241 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Rating = function (_React$Component) {
-	  _inherits(Rating, _React$Component);
+	var Facets = function (_React$Component) {
+	  _inherits(Facets, _React$Component);
 
-	  function Rating() {
-	    _classCallCheck(this, Rating);
+	  function Facets() {
+	    _classCallCheck(this, Facets);
 
-	    return _possibleConstructorReturn(this, (Rating.__proto__ || Object.getPrototypeOf(Rating)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Facets.__proto__ || Object.getPrototypeOf(Facets)).apply(this, arguments));
 	  }
 
-	  _createClass(Rating, [{
+	  _createClass(Facets, [{
 	    key: 'render',
 	    value: function render() {
+	      var response = this.props.results;
+
+	      if (response && response.facets.length > 0) {
+	        var results = response.facets.map(function (object, index) {
+	          if (object.name === 'food_type') {
+	            return _react2.default.createElement(_FoodTypes2.default, {
+	              title: 'Cuisine/Food Type',
+	              facetValues: object.data,
+	              key: index
+	            });
+	          }
+	        });
+
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          results
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }]);
+
+	  return Facets;
+	}(_react2.default.Component);
+
+	exports.default = Facets;
+
+/***/ }),
+/* 504 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FoodType = __webpack_require__(505);
+
+	var _FoodType2 = _interopRequireDefault(_FoodType);
+
+	var _FoodTypes = __webpack_require__(506);
+
+	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FoodTypes = function (_React$Component) {
+	  _inherits(FoodTypes, _React$Component);
+
+	  function FoodTypes() {
+	    _classCallCheck(this, FoodTypes);
+
+	    return _possibleConstructorReturn(this, (FoodTypes.__proto__ || Object.getPrototypeOf(FoodTypes)).apply(this, arguments));
+	  }
+
+	  _createClass(FoodTypes, [{
+	    key: 'render',
+	    value: function render() {
+	      var data = this.props.facetValues;
+	      var facetValues = Object.keys(data).map(function (key, index) {
+	        return _react2.default.createElement(_FoodType2.default, {
+	          name: key,
+	          value: data[key],
+	          key: index
+	        });
+	      });
+
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        'Rating'
+	        { className: _FoodTypes2.default.facet },
+	        _react2.default.createElement(
+	          'h1',
+	          { className: _FoodTypes2.default.facetTitle },
+	          this.props.title
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: _FoodTypes2.default.facetList },
+	          facetValues
+	        )
 	      );
 	    }
 	  }]);
 
-	  return Rating;
+	  return FoodTypes;
 	}(_react2.default.Component);
 
-	exports.default = Rating;
+	exports.default = FoodTypes;
 
 /***/ }),
-/* 503 */
+/* 505 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _FoodTypes = __webpack_require__(506);
+
+	var _FoodTypes2 = _interopRequireDefault(_FoodTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FoodType = function (_React$Component) {
+	  _inherits(FoodType, _React$Component);
+
+	  function FoodType() {
+	    _classCallCheck(this, FoodType);
+
+	    return _possibleConstructorReturn(this, (FoodType.__proto__ || Object.getPrototypeOf(FoodType)).apply(this, arguments));
+	  }
+
+	  _createClass(FoodType, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'span',
+	          { className: _FoodTypes2.default.name },
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: _FoodTypes2.default.count },
+	          this.props.value
+	        )
+	      );
+	    }
+	  }]);
+
+	  return FoodType;
+	}(_react2.default.Component);
+
+	exports.default = FoodType;
+
+/***/ }),
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(504);
+	var content = __webpack_require__(507);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// Prepare cssTransformation
+	var transform;
+
+	var options = {"hmr":true}
+	options.transform = transform
+	// add the styles to the DOM
+	var update = __webpack_require__(499)(content, options);
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./FoodTypes.css", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!./FoodTypes.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 507 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(498)(undefined);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".FoodTypes__facetTitle___xit1L {\n  margin: 0 0 10px 0;\n  padding: 0;\n  font-size: 1rem;\n  line-height: 1.6rem;\n}\n\n.FoodTypes__facetList___1MpeE {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n\n.FoodTypes__facetList___1MpeE > li {\n  padding: 0 10px;\n  font-size: 0.8rem;\n  line-height: 1.6rem;\n  border-radius: 3px;\n}\n\n.FoodTypes__facetList___1MpeE > li:hover {\n  color: white;\n  background-color: #2897C5;\n  cursor: pointer;\n}\n\n.FoodTypes__facetList___1MpeE > li > .FoodTypes__count___2C-09 {\n  float: right;\n}\n", ""]);
+
+	// exports
+	exports.locals = {
+		"facetTitle": "FoodTypes__facetTitle___xit1L",
+		"facetList": "FoodTypes__facetList___1MpeE",
+		"count": "FoodTypes__count___2C-09"
+	};
+
+/***/ }),
+/* 508 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(509);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -43400,7 +43655,7 @@
 	}
 
 /***/ }),
-/* 504 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(498)(undefined);
@@ -43408,7 +43663,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'Open Sans', sans-serif;\n  font-size: 14px;\n  background: url(" + __webpack_require__(505) + ");\n  background-size: 46px auto;\n}\n\n.Search__container___2h8KJ {\n  max-width: 1024px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  background-color: white;\n  box-shadow: 0 2px 6px rgba(0,0,0,.2);\n}\n\n.Search__wrapper___14X-G {\n  display: flex;\n  flex-direction: row;\n}\n\n.Search__searchBar___19zE0 {\n  padding: 25px 20px;\n  background: #1C688E;\n}\n\n.Search__sidebar___3nTzZ {\n  flex: 1;\n  padding: 22px;\n}\n\n.Search__content___2HKxR {\n  flex: 3;\n  padding: 20px;\n  border-left: 1px solid #E6E6E6;\n}\n", ""]);
+	exports.push([module.id, "html {\n  font-size: 15px;\n  font-family: 'Open Sans', sans-serif;\n}\n\nbody {\n  -webkit-font-smoothing: antialiased;\n  background: url(" + __webpack_require__(510) + ");\n  background-size: 46px auto;\n}\n\n.Search__container___2h8KJ {\n  max-width: 820px;\n  margin: auto;\n  display: flex;\n  flex-direction: column;\n  background-color: white;\n  box-shadow: 0 2px 6px rgba(0,0,0,.2);\n}\n\n.Search__wrapper___14X-G {\n  display: flex;\n  flex-direction: row;\n}\n\n.Search__searchBar___19zE0 {\n  padding: 25px 20px;\n  background: #1C688E;\n}\n\n.Search__searchBar___19zE0 > input {\n  width: 100%;\n  box-sizing: border-box;\n  padding: 10px 13px;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1rem;\n  border: 1px solid #D6D6D6;\n  border-radius: 3px;\n  appearance: none;\n}\n\n.Search__searchBar___19zE0 > input:focus {\n  border: 1px solid #2897C5;\n  outline: 0;\n}\n\n.Search__searchBar___19zE0 > button {\n  display: none;\n}\n\n.Search__searchBar___19zE0 > input:placeholder {\n  color: #B3B3B3;\n}\n\n.Search__sidebar___3nTzZ {\n  width: 200px;\n  padding: 22px;\n}\n\n.Search__content___2HKxR {\n  flex: 3;\n  padding: 20px;\n  border-left: 1px solid #E6E6E6;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
@@ -43420,7 +43675,7 @@
 	};
 
 /***/ }),
-/* 505 */
+/* 510 */
 /***/ (function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
