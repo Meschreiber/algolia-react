@@ -70,7 +70,6 @@
 	      lat: position.coords.latitude,
 	      lon: position.coords.longitude
 	    };
-	    console.log(location);
 	  });
 	}
 
@@ -19854,11 +19853,6 @@
 	  }, {
 	    key: 'fetchRestaurants',
 	    value: function fetchRestaurants() {
-	      console.log(this.props);
-	      if (this.props.location) {
-	        console.log(this.props.loction.lat);
-	      }
-
 	      helper.setQuery(this.state.query).search();
 	    }
 	  }, {
