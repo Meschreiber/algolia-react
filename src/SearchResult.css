@@ -1,0 +1,34 @@
+.searchResult {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.left {
+  width: 97px;
+}
+
+.left > img {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #979797;
+  border-radius: 4px;
+}
+
+.right {
+  flex: 2;
+}
+
+.right > .name {
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.right > .rating {
+  margin-bottom: 4px;
+  color: #FFAB66;
+}
+
+.right > .meta {
+  color: #9A9A9A;
+}

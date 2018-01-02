@@ -1,0 +1,64 @@
+html {
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background: url('../public/img/background_@2x.png');
+  background-size: 46px auto;
+}
+
+.container {
+  max-width: 820px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.searchBar {
+  padding: 25px 20px;
+  background: #1C688E;
+}
+
+.searchBar > input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 13px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  border: 1px solid #D6D6D6;
+  border-radius: 3px;
+  appearance: none;
+}
+
+.searchBar > input:focus {
+  border: 1px solid #2897C5;
+  outline: 0;
+}
+
+.searchBar > button {
+  display: none;
+}
+
+.searchBar > input:placeholder {
+  color: #B3B3B3;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 22px;
+}
+
+.content {
+  flex: 3;
+  padding: 20px;
+  border-left: 1px solid #E6E6E6;
+}

@@ -1,0 +1,29 @@
+.facetTitle {
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.6rem;
+}
+
+.facetList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.facetList > li {
+  padding: 0 10px;
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+  border-radius: 3px;
+}
+
+.facetList > li:hover {
+  color: white;
+  background-color: #2897C5;
+  cursor: pointer;
+}
+
+.facetList > li > .count {
+  float: right;
+}
